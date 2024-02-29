@@ -1,0 +1,64 @@
+{
+    "results": [
+        {
+            "name": "Michael Scott",
+            "fotoPerfil": "michael",
+            "isAdmin": true
+        },
+        {
+            "name": "Dwight Schrute",
+            "fotoPerfil": "dwight",
+            "isAdmin": false
+        },
+        {
+            "name": "Pamela Beesly",
+            "fotoPerfil": "pam",
+            "isAdmin": false
+        },
+        {
+            "name": "Jim Halpert",
+            "fotoPerfil": "jim",
+            "isAdmin": false
+        },
+        {
+            "name": "Angela Martin",
+            "fotoPerfil": "angela",
+            "isAdmin": false
+        },
+        {
+            "name": "Stanley Hudson",
+            "fotoPerfil": "stanley",
+            "isAdmin": false
+        },
+        {
+            "name": "Phyllis Vance",
+            "fotoPerfil": "phyllis",
+            "isAdmin": false
+        },
+        {
+            "name": "Kevin Malone",
+            "fotoPerfil": "kevin",
+            "isAdmin": false
+        },
+        {
+            "name": "Meredith Palmer",
+            "fotoPerfil": "meredith",
+            "isAdmin": false
+        },
+        {
+            "name": "Oscar Martinez",
+            "fotoPerfil": "oscar",
+            "isAdmin": false
+        },
+        {
+            "name": "Creed Branton",
+            "fotoPerfil": "creed",
+            "isAdmin": false
+        },
+        {
+            "name": "Kelly Kapoor",
+            "fotoPerfil": "kelly",
+            "isAdmin": false
+        }
+    ]
+}
