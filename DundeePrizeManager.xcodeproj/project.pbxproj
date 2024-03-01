@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0F1510252B910EA4006FA28F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0F1510242B910EA4006FA28F /* .gitignore */; };
+		0F1510272B91FB4C006FA28F /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1510262B91FB4C006FA28F /* CreateUserView.swift */; };
 		0F6787BF2B8BD14C000F5CB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F6787BE2B8BD14C000F5CB2 /* Assets.xcassets */; };
 		0F6787C22B8BF3C7000F5CB2 /* Employees.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F6787C12B8BF3C7000F5CB2 /* Employees.json */; };
 		0F6787C52B8BF5EE000F5CB2 /* EmployeeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6787C42B8BF5EE000F5CB2 /* EmployeeManager.swift */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		0F1510242B910EA4006FA28F /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		0F1510262B91FB4C006FA28F /* CreateUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserView.swift; sourceTree = "<group>"; };
 		0F6787BE2B8BD14C000F5CB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F6787C12B8BF3C7000F5CB2 /* Employees.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Employees.json; sourceTree = "<group>"; };
 		0F6787C42B8BF5EE000F5CB2 /* EmployeeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeManager.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 				0F6A5AE92B8510AF00FE1288 /* DundeePrizeManagerApp.swift */,
 				0FBB6B192B87CFE900F410C7 /* DundiesView.swift */,
 				0F6787D12B8E5C40000F5CB2 /* VoteView.swift */,
+				0F1510262B91FB4C006FA28F /* CreateUserView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F6787C52B8BF5EE000F5CB2 /* EmployeeManager.swift in Sources */,
+				0F1510272B91FB4C006FA28F /* CreateUserView.swift in Sources */,
 				0F6787D22B8E5C40000F5CB2 /* VoteView.swift in Sources */,
 				0F6A5AEC2B8510AF00FE1288 /* ContentView.swift in Sources */,
 				0FBB6B262B89285700F410C7 /* AddDundieView.swift in Sources */,

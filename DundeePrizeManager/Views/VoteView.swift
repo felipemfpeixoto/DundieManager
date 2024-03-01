@@ -18,6 +18,8 @@ struct VoteView: View {
     
     var votes: [DundieVote]
     
+    @State var isLoadingVote: Bool = false
+    
     var body: some View {
         ZStack {
             Color.ourGreen
@@ -27,7 +29,13 @@ struct VoteView: View {
                 Spacer()
                 grid
                 Spacer()
-                sendVoteButton
+                if isLoadingVote {
+                   ProgressView()
+                        .controlSize(.extraLarge)
+                }
+                else {
+                    sendVoteButton
+                }
                 Spacer()
             }
         }
@@ -90,7 +98,6 @@ struct VoteView: View {
                 }
             }
             sendVote(vote: votedUser)
-            isShowing.toggle()
         } label: {
             Image(systemName: "checkmark")
                 .font(.title2.weight(.medium))
@@ -103,25 +110,24 @@ struct VoteView: View {
     }
     
     func sendVote(vote: DundieVote) {
+        isLoadingVote = true
+        print("Entrou1")
         if vote.idVotador != "" && vote.idVotante != "" {
             vote.ckSave(then: { result in
                 switch result {
                 case .success(let savedVote):
-                    guard let savedVote = savedVote as? DundieModel else {return}
+                    print("Entrou2")
+                    guard let savedVote = savedVote as? DundieVote else {return}
                     print(savedVote)
-                    isShowing.toggle()
-                    
+                    isShowing = false
                 case .failure(let error):
                     debugPrint("Cannot Save new dundie")
                     debugPrint(error)
                 }
+                print("Entrou3")
             })
         } else {
             return;
         }
     }
 }
-
-//#Preview {
-//    VoteView()
-//}

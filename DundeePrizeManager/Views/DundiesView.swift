@@ -1,9 +1,6 @@
 import SwiftUI
 import CloudKitMagicCRUD
 
-// Pegar o email do Icloud do usuário assim como o pg falou e usar o mesmo como idVotador nos votos!
-// Dessa forma ja permitimos diversos usuarios utilizarem o app e votarem em funcionarios diferentes
-
 extension Color {
     
     init(hex: String) {
@@ -32,7 +29,11 @@ struct DundiesView: View, CKMRecordObserver {
     
     @State var vaiVotar: Bool = false
     
-    @State var isLoading = false
+    @State var isShowingProfile: Bool = false
+    
+    @State var isLoadingDundies = false
+    
+    @Binding var isLoadingUser: Bool
     
     var filteredDundie: [DundieModel] {
         return searchText == "" ? dundies : dundies.filter {
@@ -45,45 +46,43 @@ struct DundiesView: View, CKMRecordObserver {
             ZStack {
                 Color.white
                 VStack {
-                    ZStack {
-                        Color.white
-                        VStack {
-                            if isLoading {
-                               ProgressView()
-                                    .controlSize(.extraLarge)
-                            }
-                            else {
-                                listaDundies
-                            }
-                        }
-                    }
+                    loadingDundies
                     Spacer()
-                    .navigationBarItems(
-                        leading: VStack {
-                            Spacer()
-                            Text("The Awards")
-                                .font(Font.custom("American Typewriter", size: 30))
-                                .foregroundStyle(.black)
-                                .padding()
-                        },
-                        trailing: HStack {
-//                            EditButton()
-                            Button {
-                            } label: {
-                                Image(systemName: "square.and.pencil")
-                                    .foregroundStyle(Color.ourGreen)
-                            }
-                            Button {
-                                isPresentingAddSheet.toggle()
-                            } label: {
-                                Image(systemName: "plus.circle")
-                                    .foregroundStyle(Color.ourGreen)
-                            }
+                    ZStack {
+                        // BUG: Se o profile estiver aberto e a pessoa navegar, ele n sai da tela
+                        if isShowingProfile {
+                            ProfileSheet(isShowingProfile: $isShowingProfile)
+                                .padding(.top, 50)
+                                .transition(.move(edge: .bottom))
+                                .animation(.spring(duration: 0.5))
                         }
-                        )
+                    }.zIndex(2.0)
                 }
+               
+                .navigationTitle("The Awards")
+                .navigationBarItems(
+                    leading: VStack {
+                        Spacer()
+                            .font(Font.custom("American Typewriter", size: 30))
+                            .foregroundStyle(.black)
+                            .padding()
+                    },
+                    trailing: HStack {
+//                            EditButton()
+                        Button {
+                            isPresentingAddSheet.toggle()
+                        } label: {
+                            Image(systemName: "plus.circle")
+                                .foregroundStyle(Color.ourGreen)
+                        }
+                        Button {
+                            isShowingProfile = true
+                        } label: {
+                            userButton
+                        }
+                    })
                 .accentColor(.black)
-                .animation(.easeInOut, value: isLoading)
+                .animation(.easeInOut, value: isLoadingUser)
 
             }
             .sheet(isPresented: $isPresentingAddSheet, content: {
@@ -129,13 +128,43 @@ struct DundiesView: View, CKMRecordObserver {
         }
     }
     
+    var userButton: some View {
+        VStack {
+            if icloudUser != nil {
+                Image(uiImage: UIImage(data: (icloudUser?.profilePic!)!)!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 30, height: 30) // Ajuste conforme necessário
+                    .clipShape(Circle())
+            } else {
+                Image(systemName: "person.fill")
+            }
+        }
+    }
+    
+    var loadingDundies: some View {
+        ZStack {
+            Color.white
+            VStack {
+                if isLoadingDundies && isLoadingUser {
+                   ProgressView()
+                        .controlSize(.extraLarge)
+                }
+                else {
+                    listaDundies
+                    Spacer()
+                }
+            }
+        }
+    }
+    
     // faz nada ainda
     func delete(indexSet: IndexSet) {
             dundies.remove(atOffsets: indexSet)
         }
     
     func recieveDundies() {
-        isLoading = true
+        isLoadingDundies = true
         DundieModel.ckLoadAll(then: { result in
             switch result {
                 case .success(let loadedDundies):
@@ -145,7 +174,7 @@ struct DundiesView: View, CKMRecordObserver {
                     debugPrint("Cannot load new messages")
                     debugPrint(error)
             }
-            isLoading = false
+            isLoadingDundies = false
         })
     }
     
@@ -161,6 +190,33 @@ struct DundiesView: View, CKMRecordObserver {
     }
 }
 
-#Preview {
-    DundiesView()
+struct ProfileSheet: View {
+    
+    @Environment(\.presentationMode) var presentationMode
+    
+    @Binding var isShowingProfile: Bool
+    
+    var body: some View {
+        ZStack(alignment: .topLeading) {
+            Color.ourGreen
+                .ignoresSafeArea()
+                .clipShape(RoundedRectangle(cornerRadius: 40))
+            Button(action: {
+                presentationMode.wrappedValue.dismiss()
+                
+                
+                isShowingProfile.toggle()
+            }, label: {
+                Image(systemName: "xmark")
+                    .foregroundStyle(.black)
+                    .font(.largeTitle)
+                    .padding(20)
+            })
+        }
+        .ignoresSafeArea()
+    }
 }
+
+//#Preview {
+//    DundiesView()
+//}

@@ -28,3 +28,10 @@ struct DundieEmployee: Codable, Equatable, Identifiable {
 struct DundieEmployeePage: Codable {
     let results: [DundieEmployee]
 }
+
+struct DundieUser: CKMRecord {
+    var recordName: String? // UUID?
+    var icloudID: String
+    var profilePic: Data?
+    var userName: String
+}

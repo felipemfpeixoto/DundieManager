@@ -17,68 +17,31 @@ struct DundieDetailView: View {
     
     @State var isShowingView: Bool = false
     
+    @State var isLoadingVotes: Bool = false
+    
     var body: some View {
         ZStack {
-            Color.white
-                .ignoresSafeArea()
-            Ellipse()
-                .frame(width: 446, height: 402)
-                .foregroundStyle(Color.ourGreen)
-                .offset(y: -UIScreen.main.bounds.height/1.85)
+            dundieBackground
             VStack {
-                HStack {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .foregroundStyle(.black)
-                            .font(.title.weight(.semibold))
-                    }
-                    .padding(.horizontal, 40)
-                    Spacer()
-                }
-                ZStack {
-                    Circle()
-                        .frame(width: 90, height: 90)
-                        .foregroundStyle(.white)
-                    Image(uiImage: UIImage(data: dundie.dundieImage ?? Data()) ?? UIImage(systemName: "person.circle.fill")!)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 70, height: 70)
-                        .clipShape(Circle())
-                }
-                .padding(.top, 30)
-                Text(dundie.dundieName)
-                    .font(Font.custom("American Typewriter", size: 25))
-                    .foregroundStyle(Color.ourGreen)
-                Text(dundie.descricao)
-                    .font(.system(size: 16))
-                    .foregroundStyle(.black)
-                    .opacity(0.7)
-                    .padding(.horizontal, 80)
-                    .multilineTextAlignment(.center)
+                backButton
+                dundieInfo
                 Spacer()
-                
-                podium
-                Spacer()
-                listaEmployees
-                    .padding(.top, 40)
-                Button {
-                    isShowingVote.toggle()
-                } label: {
-                    ZStack {
-                        Text("Vote")
-                            .font(.system(size: 20, weight: .medium))
-                            .foregroundStyle(.white)
-                            .frame(width: 123, height: 43)
-                            .background(Color.ourGreen)
-                            .clipShape(RoundedRectangle(cornerRadius: 20))
+                VStack {
+                    if isLoadingVotes {
+                       ProgressView()
+                            .controlSize(.extraLarge)
                     }
-                        
+                    else {
+                        // animacao nao esta funcionando
+                        podium
+                        Spacer()
+                        listaEmployees
+                        Spacer()
+                        voteButton
+                    }
                 }
                 Spacer()
             }
-            .toolbar(.hidden, for: .tabBar)
             .sheet(isPresented: $isShowingVote, content: {
                 VoteView(idDundie: idDundie, isShowing: $isShowingVote, votes: votes)
             })
@@ -91,7 +54,57 @@ struct DundieDetailView: View {
         .navigationBarHidden(true)
         .task {
             recieveDundieVotes(idDundie: idDundie)
-            isShowingView.toggle()
+        }
+    }
+    
+    var dundieBackground: some View {
+        ZStack {
+            Color.white
+                .ignoresSafeArea()
+            Ellipse()
+                .frame(width: 446, height: 402)
+                .foregroundStyle(Color.ourGreen)
+                .offset(y: -UIScreen.main.bounds.height/1.85)
+        }
+    }
+    
+    var backButton: some View {
+        HStack {
+            Button {
+                dismiss()
+            } label: {
+                Image(systemName: "chevron.left")
+                    .foregroundStyle(.black)
+                    .font(.title.weight(.semibold))
+            }
+            .padding(.horizontal, 40)
+            Spacer()
+        }
+    }
+    
+    var dundieInfo: some View {
+        VStack {
+            ZStack {
+                Circle()
+                    .frame(width: 90, height: 90)
+                    .foregroundStyle(.white)
+                Image(uiImage: UIImage(data: dundie.dundieImage ?? Data()) ?? UIImage(systemName: "person.circle.fill")!)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 70, height: 70)
+                    .clipShape(Circle())
+            }
+            .padding(.top, 30)
+            Text(dundie.dundieName)
+                .font(Font.custom("American Typewriter", size: 25))
+                .foregroundStyle(Color.ourGreen)
+            Text(dundie.descricao)
+                .font(.system(size: 16))
+                .foregroundStyle(.black)
+                .opacity(0.7)
+                .padding(.horizontal, 80)
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 16)
         }
     }
     
@@ -131,6 +144,7 @@ struct DundieDetailView: View {
                     .padding(.leading, -8)
                 }
             }.animation(Animation.smooth(duration: 2), value: isShowingView)
+            .animation(.easeInOut, value: isLoadingVotes) // nao ta funcionando
             Rectangle()
                 .frame(width: 300, height: 20)
                 .foregroundStyle(.gray)
@@ -160,14 +174,33 @@ struct DundieDetailView: View {
                    
                 }
             }
-            .listRowBackground(Color.rowBackground)
+            .listRowBackground(Color.white)
         }
         .padding(.horizontal, 30)
+        .padding(.top, 10)
         .background(.white)
         .scrollContentBackground(.hidden)
     }
     
+    var voteButton: some View {
+        Button {
+            isShowingVote.toggle()
+        } label: {
+            ZStack {
+                Text("Vote")
+                    .font(.system(size: 20, weight: .medium))
+                    .foregroundStyle(.white)
+                    .frame(width: 123, height: 43)
+                    .background(Color.ourGreen)
+                    .clipShape(RoundedRectangle(cornerRadius: 20))
+            }
+                
+        }
+    }
+    
     func recieveDundieVotes(idDundie: String) {
+        isLoadingVotes = true
+        isShowingView = false
         DundieVote.ckLoadAll(then: { result in
             switch result {
             case .success(let loadedVotes):
@@ -187,9 +220,13 @@ struct DundieDetailView: View {
                 }
                 completaDic()
                 ordenaLista()
+                isLoadingVotes = false
             case .failure(let error):
                 debugPrint("Cannot load new dundies")
                 debugPrint(error)
+            }
+            DispatchQueue.main.async {
+                isShowingView = true
             }
         })
     }

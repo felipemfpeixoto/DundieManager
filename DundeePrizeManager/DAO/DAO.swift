@@ -11,9 +11,7 @@ class DAO {
     }
     
     func getUserID() async throws {
-            self.userID = try await self.container.userRecordID()
-            print("Id user: ", self.userID?.recordName)
-        
+        self.userID = try await self.container.userRecordID()
     }
 }
 
