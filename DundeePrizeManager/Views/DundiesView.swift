@@ -37,7 +37,7 @@ struct DundiesView: View, CKMRecordObserver {
     
     var filteredDundie: [DundieModel] {
         return searchText == "" ? dundies : dundies.filter {
-            $0.dundieName.lowercased().contains(searchText.lowercased()) // pq o $0?
+            $0.dundieName.lowercased().contains(searchText.lowercased())
         }
     }
     
@@ -46,10 +46,24 @@ struct DundiesView: View, CKMRecordObserver {
             ZStack {
                 Color.white
                 VStack {
+//                    HStack {
+//                        Spacer()
+//                        EditButton()
+//                            .padding(.trailing, 30)
+//                            .foregroundStyle(Color.ourGreen)
+//                    }
+//                    .padding(.bottom, -10)
                     loadingDundies
                     Spacer()
+                    Button {
+                        isPresentingAddSheet.toggle()
+                    } label: {
+                        Image(systemName: "plus.circle.fill")
+                            .foregroundStyle(Color.ourGreen)
+                            .font(.largeTitle.weight(.medium))
+                    }
+                    Spacer()
                     ZStack {
-                        // BUG: Se o profile estiver aberto e a pessoa navegar, ele n sai da tela
                         if isShowingProfile {
                             ProfileSheet(isShowingProfile: $isShowingProfile)
                                 .padding(.top, 50)
@@ -61,33 +75,31 @@ struct DundiesView: View, CKMRecordObserver {
                
                 .navigationTitle("The Awards")
                 .navigationBarItems(
-                    leading: VStack {
-                        Spacer()
-                            .font(Font.custom("American Typewriter", size: 30))
-                            .foregroundStyle(.black)
-                            .padding()
-                    },
-                    trailing: HStack {
-//                            EditButton()
-                        Button {
-                            isPresentingAddSheet.toggle()
-                        } label: {
-                            Image(systemName: "plus.circle")
-                                .foregroundStyle(Color.ourGreen)
+                    trailing: 
+                        VStack {
+                            HStack {
+                                Button {
+                                    recieveDundies()
+                                } label: {
+                                    Image(systemName: "arrow.clockwise")
+                                        .foregroundStyle(Color.ourGreen)
+                                        .font(.title3.weight(.semibold))
+                                }
+                                Button {
+                                    isShowingProfile = true
+                                } label: {
+                                    userButton
+                                }
+                            }
+                            .accentColor(.black)
+                            .animation(.easeInOut, value: isLoadingUser)
                         }
-                        Button {
-                            isShowingProfile = true
-                        } label: {
-                            userButton
-                        }
-                    })
-                .accentColor(.black)
-                .animation(.easeInOut, value: isLoadingUser)
-
+                )
             }
             .sheet(isPresented: $isPresentingAddSheet, content: {
                 AddDundieView(dundies: $dundies, isShowing: $isPresentingAddSheet)
             })
+
         }
         .searchable(text: $searchText)
         .animation(.easeIn(duration: 0.3), value: filteredDundie.count)
@@ -107,13 +119,13 @@ struct DundiesView: View, CKMRecordObserver {
                                     Image(uiImage: UIImage(data: dundie.dundieImage!)!)
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: 45, height: 45) // Ajuste conforme necessário
+                                        .frame(width: 45, height: 45)
                                         .clipShape(Circle())
                                 } else {
                                     Text(dundie.emoji)
                                 }
                                 Text(dundie.dundieName)
-                                    .font(.system(size: 20))
+                                    .font(.title3)
                                     .opacity(0.6)
                                     .foregroundStyle(.black)
                             }
@@ -134,7 +146,7 @@ struct DundiesView: View, CKMRecordObserver {
                 Image(uiImage: UIImage(data: (icloudUser?.profilePic!)!)!)
                     .resizable()
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 30, height: 30) // Ajuste conforme necessário
+                    .frame(width: 30, height: 30)
                     .clipShape(Circle())
             } else {
                 Image(systemName: "person.fill")
@@ -160,11 +172,12 @@ struct DundiesView: View, CKMRecordObserver {
     
     // faz nada ainda
     func delete(indexSet: IndexSet) {
-            dundies.remove(atOffsets: indexSet)
-        }
+        dundies.remove(atOffsets: indexSet)
+    }
     
     func recieveDundies() {
         isLoadingDundies = true
+        isLoadingUser = true
         DundieModel.ckLoadAll(then: { result in
             switch result {
                 case .success(let loadedDundies):
@@ -174,6 +187,7 @@ struct DundiesView: View, CKMRecordObserver {
                     debugPrint("Cannot load new messages")
                     debugPrint(error)
             }
+            isLoadingUser = false
             isLoadingDundies = false
         })
     }
@@ -197,26 +211,49 @@ struct ProfileSheet: View {
     @Binding var isShowingProfile: Bool
     
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        ZStack {
             Color.ourGreen
                 .ignoresSafeArea()
                 .clipShape(RoundedRectangle(cornerRadius: 40))
-            Button(action: {
-                presentationMode.wrappedValue.dismiss()
-                
-                
-                isShowingProfile.toggle()
-            }, label: {
-                Image(systemName: "xmark")
-                    .foregroundStyle(.black)
-                    .font(.largeTitle)
-                    .padding(20)
-            })
+            VStack {
+                HStack {
+                    Button(action: {
+                        presentationMode.wrappedValue.dismiss()
+                        isShowingProfile.toggle()
+                    }, label: {
+                        Image(systemName: "xmark")
+                            .foregroundStyle(.white)
+                            .font(.title3.weight(.medium))
+                            .padding(20)
+                    })
+                    Spacer()
+                }
+                Spacer()
+            }
+            VStack {
+                Spacer()
+                if icloudUser != nil {
+                    Image(uiImage: UIImage(data: (icloudUser?.profilePic!)!)!)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 80, height: 80)
+                        .clipShape(Circle())
+                } else {
+                    Image(systemName: "person.fill")
+                }
+                Spacer()
+                HStack {
+                    Text(icloudUser?.userName ?? "Mengo")
+                        .font(.headline)
+                        .foregroundStyle(Color.ourGreen)
+                        .padding()
+                }
+                .frame(width: 253, height: 44)
+                .background(Color.rowBackground)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                Spacer()
+            }
         }
         .ignoresSafeArea()
     }
 }
-
-//#Preview {
-//    DundiesView()
-//}

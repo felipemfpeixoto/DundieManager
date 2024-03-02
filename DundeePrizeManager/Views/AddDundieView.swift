@@ -14,10 +14,14 @@ struct AddDundieView: View {
     
     @Binding var isShowing: Bool
     
-    @State var didSelect: Bool = false
-    
     @State private var selectedImage: UIImage?
     @State private var isImagePickerPresented = false
+    
+    var didSelect: Bool {
+        selectedImage != nil
+    }
+    
+    @State var isLoading = false
     
     var body: some View {
         ZStack {
@@ -29,7 +33,13 @@ struct AddDundieView: View {
                 textFieldNome
                 textFieldDescricao
                 Spacer()
-                sendButton
+                if isLoading {
+                   ProgressView()
+                        .controlSize(.extraLarge)
+                }
+                else {
+                    sendButton
+                }
                 Spacer()
             }
             .padding()
@@ -47,7 +57,7 @@ struct AddDundieView: View {
                     isShowing.toggle()
                 }, label: {
                     Image(systemName: "xmark")
-                        .font(.system(size: 25))
+                        .font(.title)
                 })
                 .foregroundStyle(.black)
                 .font(.largeTitle)
@@ -55,7 +65,7 @@ struct AddDundieView: View {
                 Spacer()
             }
             Text("Novo Dundie")
-                .font(Font.custom("American Typewriter", size: 30))
+                .font(.custom("American Typewriter", size: 31, relativeTo: .title3))
                 .fontWeight(.medium)
                 .foregroundStyle(.black)
                 .padding(.bottom)
@@ -65,23 +75,24 @@ struct AddDundieView: View {
     var imagePickerButton: some View {
         Button {
             isImagePickerPresented.toggle()
-            didSelect = true
         } label: {
             if !didSelect {
                 ZStack {
-                    Circle()
-                        .frame(width: 100)
-                        .foregroundColor(Color(hex: "D9D9D9"))
                     Image(systemName: "photo.badge.plus")
-                        .font(.system(size: 30))
-                        .foregroundStyle(.black) //  mudar
+                        .font(.title)
+                        .foregroundStyle(.black)
+                        .frame(width: 100, height: 100)
+                        .background(Color.ourGray)
+                        .clipShape(Circle())
+                        .shadow(color: .black.opacity(0.5), radius: 2.5, y: 4)
                 }
             } else {
                 Image(uiImage: selectedImage ?? UIImage(systemName: "photo")!)
                     .resizable()
-                    .frame(width: 100, height: 100)
                     .aspectRatio(contentMode: .fill)
+                    .frame(width: 100, height: 100)
                     .clipShape(Circle())
+                    .shadow(color: .black.opacity(0.5), radius: 2.5, y: 4)
             }
         }.padding()
     }
@@ -89,7 +100,7 @@ struct AddDundieView: View {
     var textFieldNome: some View {
         VStack(alignment: .leading) {
             Text("Nome:")
-                .font(Font.custom("American Typewriter", size: 20))
+                .font(.custom("American Typewriter", size: 20, relativeTo: .title3))
                 .foregroundStyle(.black)
                 .opacity(0.6)
                 .padding(.leading)
@@ -97,7 +108,8 @@ struct AddDundieView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 25)
                     .frame(height: 40)
-                    .foregroundStyle(Color(hex: "D9D9D9"))
+                    .foregroundStyle(Color.ourGray)
+                    .shadow(color: .black.opacity(0.5), radius: 2.5, y: 4)
                 TextField("", text: $name)
                     .foregroundStyle(.black)
                     .font(.system(size: 20))
@@ -109,7 +121,7 @@ struct AddDundieView: View {
     var textFieldDescricao: some View {
         VStack(alignment: .leading) {
             Text("Descrição:")
-                .font(Font.custom("American Typewriter", size: 20))
+                .font(.custom("American Typewriter", size: 20, relativeTo: .title3))
                 .foregroundStyle(.black)
                 .opacity(0.6)
                 .padding(.leading)
@@ -119,11 +131,13 @@ struct AddDundieView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 25)
                     .frame(height: 140)
-                    .foregroundStyle(Color(hex: "D9D9D9"))
+                    .foregroundStyle(Color.ourGray)
+                    .shadow(color: .black.opacity(0.5), radius: 2.5, y: 4)
                 TextField("", text: $descricao)
                     .foregroundStyle(.black)
-                    .font(.system(size: 20))
+                    .font(.title3)
                     .padding()
+                    .frame(height: 140)
             }
         }
         .padding()
@@ -136,16 +150,19 @@ struct AddDundieView: View {
             ZStack {
                 RoundedRectangle(cornerRadius: 10)
                     .frame(width: 123, height: 43)
-                    .foregroundStyle(Color(hex: "85A2A0"))
+                    .foregroundStyle(Color.ourGreen)
+                    .shadow(color: .black.opacity(0.5), radius: 2.5, y: 4)
                 Image(systemName: "checkmark")
                     .foregroundStyle(.white)
-                    .font(.system(size: 23))
+                    .font(.title2)
+                    .fontWeight(.semibold)
                     .bold()
             }
         })
     }
     
     func send() {
+        isLoading = true
         let nameFinal = name
         let descricaoFinal = descricao
         

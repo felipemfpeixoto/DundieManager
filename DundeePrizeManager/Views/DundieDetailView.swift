@@ -32,7 +32,6 @@ struct DundieDetailView: View {
                             .controlSize(.extraLarge)
                     }
                     else {
-                        // animacao nao esta funcionando
                         podium
                         Spacer()
                         listaEmployees
@@ -79,6 +78,14 @@ struct DundieDetailView: View {
             }
             .padding(.horizontal, 40)
             Spacer()
+            Button {
+                recieveDundieVotes(idDundie: idDundie)
+            } label: {
+                Image(systemName: "arrow.clockwise")
+                    .foregroundStyle(.black)
+                    .font(.title.weight(.semibold))
+            }
+            .padding(.horizontal, 40)
         }
     }
     
@@ -96,10 +103,10 @@ struct DundieDetailView: View {
             }
             .padding(.top, 30)
             Text(dundie.dundieName)
-                .font(Font.custom("American Typewriter", size: 25))
+                .font(.custom("American Typewriter", size: 25, relativeTo: .title2).weight(.semibold))
                 .foregroundStyle(Color.ourGreen)
             Text(dundie.descricao)
-                .font(.system(size: 16))
+                .font(.callout)
                 .foregroundStyle(.black)
                 .opacity(0.7)
                 .padding(.horizontal, 80)
@@ -118,9 +125,11 @@ struct DundieDetailView: View {
                             .resizable()
                             .frame(width: 45, height: 45)
                             .clipShape(Circle())
+                            .shadow(color: .black.opacity(0.5), radius: 2.5, x: 2, y: 4)
                         Rectangle()
                             .frame(width: 75, height: isShowingView ? 60 : 0)
                             .foregroundStyle(Color.podiumLeft)
+                            .shadow(color: .black.opacity(0.5), radius: 2.5, x: 2, y: 4)
                     }
                     .padding(.trailing, -8)
                     VStack {
@@ -128,29 +137,36 @@ struct DundieDetailView: View {
                             .resizable()
                             .frame(width: 45, height: 45)
                             .clipShape(Circle())
+                            .shadow(color: .black.opacity(0.5), radius: 2.5, x: 2, y: 4)
                         Rectangle()
                             .frame(width: 75, height: isShowingView ? 90 : 0)
                             .foregroundStyle(Color.podiumMiddle)
+                            .shadow(color: .black.opacity(0.5), radius: 2.5, x: 2, y: 4)
                     }
                     VStack {
                         Image(sortedEmployees[2].fotoPerfil).resizable()
                             .resizable()
                             .frame(width: 45, height: 45)
                             .clipShape(Circle())
+                            .shadow(color: .black.opacity(0.5), radius: 2.5, x: 2, y: 4)
                         Rectangle()
                             .frame(width: 75, height: isShowingView ? 40 : 0)
                             .foregroundStyle(Color.podiumRight)
+                            .shadow(color: .black.opacity(0.5), radius: 2.5, x: 2, y: 4)
                     }
                     .padding(.leading, -8)
                 }
-            }.animation(Animation.smooth(duration: 2), value: isShowingView)
+            }
+            .animation(Animation.smooth(duration: 2), value: isShowingView)
             .animation(.easeInOut, value: isLoadingVotes) // nao ta funcionando
             Rectangle()
                 .frame(width: 300, height: 20)
                 .foregroundStyle(.gray)
                 .padding(.top, -15)
+                .shadow(color: .black.opacity(0.5), radius: 2.5, x: 2, y: 4)
         }
         .frame(height: 150)
+        .padding(.bottom, 10)
     }
     
     var listaEmployees: some View {
@@ -164,20 +180,19 @@ struct DundieDetailView: View {
                             .frame(width: 45, height: 45)
                             .clipShape(Circle())
                         Text(employee.name)
-                            .font(.system(size: 20))
+                            .font(.title3)
                             .opacity(0.6)
                             .foregroundStyle(.black)
                         Spacer()
                         Text("\(dicVotesEmployee[employee.name] ?? 0)")
                             .foregroundStyle(.black)
-                    }.padding(7.5)
-                   
+                    }
+                    .padding(7.5)
                 }
             }
             .listRowBackground(Color.white)
         }
         .padding(.horizontal, 30)
-        .padding(.top, 10)
         .background(.white)
         .scrollContentBackground(.hidden)
     }
@@ -188,13 +203,12 @@ struct DundieDetailView: View {
         } label: {
             ZStack {
                 Text("Vote")
-                    .font(.system(size: 20, weight: .medium))
+                    .font(.title3.weight(.medium))
                     .foregroundStyle(.white)
                     .frame(width: 123, height: 43)
                     .background(Color.ourGreen)
                     .clipShape(RoundedRectangle(cornerRadius: 20))
             }
-                
         }
     }
     
@@ -221,12 +235,12 @@ struct DundieDetailView: View {
                 completaDic()
                 ordenaLista()
                 isLoadingVotes = false
+                DispatchQueue.main.async {
+                    isShowingView = true
+                }
             case .failure(let error):
                 debugPrint("Cannot load new dundies")
                 debugPrint(error)
-            }
-            DispatchQueue.main.async {
-                isShowingView = true
             }
         })
     }
@@ -249,9 +263,3 @@ struct DundieDetailView: View {
             }
     }
 }
-
-
-
-//#Preview {
-//    DundieDetailView(titulo: "Mengo")
-//}

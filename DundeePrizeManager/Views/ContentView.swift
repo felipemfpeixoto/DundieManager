@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  DundeePrizeManager
-//
-//  Created by infra on 20/02/24.
-//
-
 import SwiftUI
 
 let dao = DAO()
@@ -30,6 +23,7 @@ struct ContentView: View {
         }
     }
     
+    // Nao está funcionando no test flight, pois a tabela DundieUser nao existe no CloudKit de production
     func getUsers() {
         isLoadingUser = true
         DundieUser.ckLoadAll(then: { result in
@@ -53,5 +47,3 @@ struct ContentView: View {
         })
     }
 }
-
-

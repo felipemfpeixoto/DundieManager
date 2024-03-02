@@ -47,7 +47,7 @@ struct VoteView: View {
                 self.presentationMode.wrappedValue.dismiss()
             } label: {
                 Image(systemName: "chevron.left")
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.white)
                     .font(.title.weight(.semibold))
             }
             .padding()
@@ -111,12 +111,10 @@ struct VoteView: View {
     
     func sendVote(vote: DundieVote) {
         isLoadingVote = true
-        print("Entrou1")
         if vote.idVotador != "" && vote.idVotante != "" {
             vote.ckSave(then: { result in
                 switch result {
                 case .success(let savedVote):
-                    print("Entrou2")
                     guard let savedVote = savedVote as? DundieVote else {return}
                     print(savedVote)
                     isShowing = false
@@ -124,7 +122,6 @@ struct VoteView: View {
                     debugPrint("Cannot Save new dundie")
                     debugPrint(error)
                 }
-                print("Entrou3")
             })
         } else {
             return;
