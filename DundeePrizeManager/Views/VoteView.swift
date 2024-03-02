@@ -39,6 +39,9 @@ struct VoteView: View {
                 Spacer()
             }
         }
+        .task {
+            verificaVotos()
+        }
     }
     
     var dismissButton: some View {
@@ -73,19 +76,6 @@ struct VoteView: View {
                     }
                     .opacity(votedUser.idVotante == employee.name ? 0.3 : 1)
                 }
-                // else {
-//                    ZStack {
-//                        Circle()
-//                            .frame(width: 80, height: 80)
-//                            .foregroundStyle(Color.ourGreen)
-//                            .shadow(color: .black.opacity(0.5), radius: 2.5)
-//                        Image(employee.fotoPerfil)
-//                            .resizable()
-//                            .frame(width: 70, height: 70)
-//                            .clipShape(Circle())
-//                    }
-//                    .opacity(0.15)
-//                }
             }
         }
     }
@@ -106,6 +96,14 @@ struct VoteView: View {
                 .background(.white)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .shadow(color: .black.opacity(0.5), radius: 2.5, y: 4)
+        }
+    }
+    
+    func verificaVotos() {
+        for voto in votes {
+            if voto.idVotador == icloudUser?.icloudID {
+                votedUser = voto
+            }
         }
     }
     
