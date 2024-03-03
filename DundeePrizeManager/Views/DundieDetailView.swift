@@ -7,6 +7,8 @@ struct DundieDetailView: View {
     
     var idDundie: String
     
+    @Binding var isShowingProfile: Bool
+    
     @State var sortedEmployees = employees
     
     @State var votes: [DundieVote] = []
@@ -52,6 +54,7 @@ struct DundieDetailView: View {
         }
         .navigationBarHidden(true)
         .task {
+            isShowingProfile = false
             recieveDundieVotes(idDundie: idDundie)
         }
     }

@@ -27,6 +27,11 @@ struct VoteView: View {
             VStack {
                 dismissButton
                 Spacer()
+                Text("Select a Person to Vote")
+                    .font(.custom("American Typewriter", size: 22, relativeTo: .title2))
+                    .fontWeight(.medium)
+                    .foregroundStyle(.white)
+                Spacer()
                 grid
                 Spacer()
                 if isLoadingVote {

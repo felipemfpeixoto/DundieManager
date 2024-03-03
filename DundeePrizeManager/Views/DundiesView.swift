@@ -41,18 +41,13 @@ struct DundiesView: View, CKMRecordObserver {
         }
     }
     
+    let paddingProfile = (UIScreen.main.bounds.height / 3) * 1.25
+    
     var body: some View {
         NavigationStack {
             ZStack {
                 Color.white
                 VStack {
-//                    HStack {
-//                        Spacer()
-//                        EditButton()
-//                            .padding(.trailing, 30)
-//                            .foregroundStyle(Color.ourGreen)
-//                    }
-//                    .padding(.bottom, -10)
                     loadingDundies
                     Spacer()
                     Button {
@@ -63,43 +58,30 @@ struct DundiesView: View, CKMRecordObserver {
                             .font(.largeTitle.weight(.medium))
                     }
                     Spacer()
-                    ZStack {
-                        if isShowingProfile {
-                            ProfileSheet(isShowingProfile: $isShowingProfile)
-                                .padding(.top, 50)
-                                .transition(.move(edge: .bottom))
-                                .animation(.spring(duration: 0.5))
-                        }
-                    }.zIndex(2.0)
                 }
-               
-                .navigationTitle("The Awards")
-                .navigationBarItems(
-                    trailing: 
-                        VStack {
-                            HStack {
-                                Button {
-                                    recieveDundies()
-                                } label: {
-                                    Image(systemName: "arrow.clockwise")
-                                        .foregroundStyle(Color.ourGreen)
-                                        .font(.title3.weight(.semibold))
-                                }
-                                Button {
-                                    isShowingProfile = true
-                                } label: {
-                                    userButton
-                                }
-                            }
-                            .accentColor(.black)
-                            .animation(.easeInOut, value: isLoadingUser)
-                        }
-                )
+                ZStack {
+                    if isShowingProfile {
+                        Rectangle()
+                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                            .foregroundStyle(.black)
+                            .opacity(0.3)
+                            .ignoresSafeArea()
+                        ProfileSheet(isShowingProfile: $isShowingProfile)
+                            .padding(.top, 475)
+                            .transition(.move(edge: .bottom))
+                            .animation(.spring(duration: 0.5))
+                    }
+                }
+                .zIndex(2.0)
             }
+            .navigationTitle("The Awards")
+            .navigationBarItems(
+                trailing: navBarButtons
+            )
             .sheet(isPresented: $isPresentingAddSheet, content: {
                 AddDundieView(dundies: $dundies, isShowing: $isPresentingAddSheet)
             })
-
+            
         }
         .searchable(text: $searchText)
         .animation(.easeIn(duration: 0.3), value: filteredDundie.count)
@@ -113,7 +95,7 @@ struct DundiesView: View, CKMRecordObserver {
             List {
                 Section("") {
                     ForEach(filteredDundie, id: \.recordName) { dundie in
-                        NavigationLink(destination: DundieDetailView(idDundie: dundie.recordName ?? dundie.dundieName, dundie: dundie)) {
+                        NavigationLink(destination: DundieDetailView(idDundie: dundie.recordName ?? dundie.dundieName, isShowingProfile: $isShowingProfile, dundie: dundie)) {
                             HStack {
                                 if dundie.dundieImage != nil {
                                     Image(uiImage: UIImage(data: dundie.dundieImage!)!)
@@ -151,6 +133,27 @@ struct DundiesView: View, CKMRecordObserver {
             } else {
                 Image(systemName: "person.fill")
             }
+        }
+    }
+    
+    var navBarButtons: some View {
+        VStack {
+            HStack {
+                Button {
+                    recieveDundies()
+                } label: {
+                    Image(systemName: "arrow.clockwise")
+                        .foregroundStyle(Color.ourGreen)
+                        .font(.title3.weight(.semibold))
+                }
+                Button {
+                    isShowingProfile = true
+                } label: {
+                    userButton
+                }
+            }
+            .accentColor(.black)
+            .animation(.easeInOut, value: isLoadingUser)
         }
     }
     
@@ -230,8 +233,8 @@ struct ProfileSheet: View {
                 }
                 Spacer()
             }
+            Spacer()
             VStack {
-                Spacer()
                 if icloudUser != nil {
                     Image(uiImage: UIImage(data: (icloudUser?.profilePic!)!)!)
                         .resizable()
@@ -241,7 +244,6 @@ struct ProfileSheet: View {
                 } else {
                     Image(systemName: "person.fill")
                 }
-                Spacer()
                 HStack {
                     Text(icloudUser?.userName ?? "Mengo")
                         .font(.headline)
@@ -251,8 +253,9 @@ struct ProfileSheet: View {
                 .frame(width: 253, height: 44)
                 .background(Color.rowBackground)
                 .clipShape(RoundedRectangle(cornerRadius: 20))
-                Spacer()
+                .padding(40)
             }
+            Spacer()
         }
         .ignoresSafeArea()
     }

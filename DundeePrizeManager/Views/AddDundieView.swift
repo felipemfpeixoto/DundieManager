@@ -21,6 +21,10 @@ struct AddDundieView: View {
         selectedImage != nil
     }
     
+    var didSelectAll: Bool {
+        return selectedImage != nil && name != "" && descricao != ""
+    }
+    
     @State var isLoading = false
     
     var body: some View {
@@ -64,7 +68,7 @@ struct AddDundieView: View {
                 .padding(20)
                 Spacer()
             }
-            Text("Novo Dundie")
+            Text("New Dundie")
                 .font(.custom("American Typewriter", size: 31, relativeTo: .title3))
                 .fontWeight(.medium)
                 .foregroundStyle(.black)
@@ -99,7 +103,7 @@ struct AddDundieView: View {
     
     var textFieldNome: some View {
         VStack(alignment: .leading) {
-            Text("Nome:")
+            Text("Name:")
                 .font(.custom("American Typewriter", size: 20, relativeTo: .title3))
                 .foregroundStyle(.black)
                 .opacity(0.6)
@@ -120,7 +124,7 @@ struct AddDundieView: View {
     
     var textFieldDescricao: some View {
         VStack(alignment: .leading) {
-            Text("Descrição:")
+            Text("Description:")
                 .font(.custom("American Typewriter", size: 20, relativeTo: .title3))
                 .foregroundStyle(.black)
                 .opacity(0.6)
@@ -158,7 +162,9 @@ struct AddDundieView: View {
                     .fontWeight(.semibold)
                     .bold()
             }
+            .opacity(didSelectAll ? 1 : 0.3)
         })
+        .disabled(!didSelectAll)
     }
     
     func send() {
