@@ -48,6 +48,13 @@ struct DundiesView: View, CKMRecordObserver {
             ZStack {
                 Color.white
                 VStack {
+                    
+                    if isShowingProfile {
+                        Rectangle()
+                            .ignoresSafeArea()
+                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+                            .opacity(0)
+                    }
                     loadingDundies
                     Spacer()
                     Button {
@@ -59,15 +66,13 @@ struct DundiesView: View, CKMRecordObserver {
                     }
                     Spacer()
                 }
+                .allowsHitTesting(isShowingProfile ? false : true)
+                .animation(.easeIn(duration: 0.3), value: isShowingProfile)
+                
                 ZStack {
                     if isShowingProfile {
-                        Rectangle()
-                            .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-                            .foregroundStyle(.black)
-                            .opacity(0.3)
-                            .ignoresSafeArea()
                         ProfileSheet(isShowingProfile: $isShowingProfile)
-                            .padding(.top, 475)
+                            .padding(.top, 500)
                             .transition(.move(edge: .bottom))
                             .animation(.spring(duration: 0.5))
                     }
@@ -233,7 +238,6 @@ struct ProfileSheet: View {
                 }
                 Spacer()
             }
-            Spacer()
             VStack {
                 if icloudUser != nil {
                     Image(uiImage: UIImage(data: (icloudUser?.profilePic!)!)!)
@@ -241,9 +245,11 @@ struct ProfileSheet: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 80, height: 80)
                         .clipShape(Circle())
+                        .padding(.top, -80)
                 } else {
                     Image(systemName: "person.fill")
                 }
+                
                 HStack {
                     Text(icloudUser?.userName ?? "Mengo")
                         .font(.headline)
@@ -255,7 +261,6 @@ struct ProfileSheet: View {
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .padding(40)
             }
-            Spacer()
         }
         .ignoresSafeArea()
     }
