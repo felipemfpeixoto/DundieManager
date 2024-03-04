@@ -48,12 +48,17 @@ struct DundiesView: View, CKMRecordObserver {
             ZStack {
                 Color.white
                 VStack {
-                    
                     if isShowingProfile {
                         Rectangle()
                             .ignoresSafeArea()
                             .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
                             .opacity(0)
+                    }
+                    HStack {
+                        Spacer()
+                        EditButton()
+                            .foregroundStyle(Color.ourGreen)
+                            .padding(.trailing, 20)
                     }
                     loadingDundies
                     Spacer()
@@ -120,10 +125,12 @@ struct DundiesView: View, CKMRecordObserver {
                         }
                         .listRowBackground(Color.rowBackground)
                     }
+                    .onDelete(perform: delete)
                 }
             }
             .background(.white)
             .scrollContentBackground(.hidden)
+            
         }
     }
     
@@ -178,8 +185,20 @@ struct DundiesView: View, CKMRecordObserver {
         }
     }
     
-    // faz nada ainda
     func delete(indexSet: IndexSet) {
+        for (index, _) in dundies.enumerated() {
+                if indexSet.contains(index) {
+                    dundies[index].ckDelete { result in
+                        switch result {
+                            case .success:
+                                print("Funcionou porra")
+                            case .failure(let error):
+                                debugPrint("Cannot delete dundie")
+                                debugPrint(error)
+                        }
+                    }
+                }
+            }
         dundies.remove(atOffsets: indexSet)
     }
     
