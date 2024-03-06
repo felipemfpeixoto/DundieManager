@@ -119,7 +119,6 @@ struct VoteView: View {
                 switch result {
                 case .success(let savedVote):
                     guard let savedVote = savedVote as? DundieVote else {return}
-                    print(savedVote)
                     isShowing = false
                 case .failure(let error):
                     debugPrint("Cannot Save new dundie")

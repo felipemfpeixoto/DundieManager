@@ -1,24 +1,6 @@
 import SwiftUI
 import CloudKitMagicCRUD
 
-extension Color {
-    
-    init(hex: String) {
-        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-
-        var rgb: UInt64 = 0
-
-        Scanner(string: hexSanitized).scanHexInt64(&rgb)
-
-        let red = Double((rgb & 0xFF0000) >> 16) / 255.0
-        let green = Double((rgb & 0x00FF00) >> 8) / 255.0
-        let blue = Double(rgb & 0x0000FF) / 255.0
-
-        self.init(red: red, green: green, blue: blue)
-    }
-}
-
 struct DundiesView: View, CKMRecordObserver {
     
     @State var dundies: [DundieModel] = []
@@ -33,7 +15,7 @@ struct DundiesView: View, CKMRecordObserver {
     
     @State var isLoadingDundies = false
     
-    @Binding var isLoadingUser: Bool
+    let isLoadingUser: Bool
     
     var filteredDundie: [DundieModel] {
         return searchText == "" ? dundies : dundies.filter {
@@ -71,8 +53,8 @@ struct DundiesView: View, CKMRecordObserver {
                     }
                     Spacer()
                 }
-                .allowsHitTesting(isShowingProfile ? false : true)
                 .animation(.easeIn(duration: 0.3), value: isShowingProfile)
+                .allowsHitTesting(isShowingProfile ? false : true)
                 
                 ZStack {
                     if isShowingProfile {
@@ -173,7 +155,7 @@ struct DundiesView: View, CKMRecordObserver {
         ZStack {
             Color.white
             VStack {
-                if isLoadingDundies && isLoadingUser {
+                if isLoadingDundies {
                    ProgressView()
                         .controlSize(.extraLarge)
                 }
@@ -191,7 +173,7 @@ struct DundiesView: View, CKMRecordObserver {
                     dundies[index].ckDelete { result in
                         switch result {
                             case .success:
-                                print("Funcionou porra")
+                                print("Success")
                             case .failure(let error):
                                 debugPrint("Cannot delete dundie")
                                 debugPrint(error)
@@ -204,7 +186,6 @@ struct DundiesView: View, CKMRecordObserver {
     
     func recieveDundies() {
         isLoadingDundies = true
-        isLoadingUser = true
         DundieModel.ckLoadAll(then: { result in
             switch result {
                 case .success(let loadedDundies):
@@ -214,19 +195,18 @@ struct DundiesView: View, CKMRecordObserver {
                     debugPrint("Cannot load new messages")
                     debugPrint(error)
             }
-            isLoadingUser = false
             isLoadingDundies = false
         })
     }
     
     func onReceive(notification: CloudKitMagicCRUD.CKMNotification) {
 //        if #available(iOS 15.0, *) {
-//            print("New Message at \(notification.date.formatted(date: .omitted, time: .complete))")
+////            print("New Message at \(notification.date.formatted(date: .omitted, time: .complete))")
 //            print(notification.body, notification.title, notification.userID ?? "")
 //        } else {
-//            print("New Message at \(notification.date)")
+//            print("New Dundie")
+//            print("New Dundie at \(notification.date)")
 //        }
-        
         recieveDundies()
     }
 }

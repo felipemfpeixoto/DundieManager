@@ -184,7 +184,6 @@ struct AddDundieView: View {
                 case .success(let savedDundie):
                     guard let savedDundie = savedDundie as? DundieModel else {return}
                     self.dundies.append(savedDundie)
-                    print(savedDundie)
                     isShowing.toggle()
                 case .failure(let error):
                     debugPrint("Cannot Save new dundie")

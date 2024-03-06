@@ -12,15 +12,12 @@ extension Bundle {
         guard let url = self.url(forResource: file, withExtension: nil) else {
             fatalError("Could not find \(file) in bundle.")
         }
-        print(url)
         
         guard let data = try? Data(contentsOf: url) else {
             fatalError("Could not load \(file) from bundle.")
         }
-        print(data)
         
         let decoder = JSONDecoder()
-        print(decoder)
         
         guard let loadedData = try? decoder.decode(T.self, from: data) else {
             fatalError("Could not decode \(file) from bundle.")

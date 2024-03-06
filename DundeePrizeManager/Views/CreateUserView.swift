@@ -15,6 +15,8 @@ struct CreateUserView: View {
     
     @State var isLoading = false
     
+    @Binding var isLoadingUser: Bool
+    
     var isAnimating: Bool {
         return name != "" && selectedImage != nil
     }
@@ -174,6 +176,7 @@ struct CreateUserView: View {
                     guard let savedUser = savedUser as? DundieUser else {return}
                     icloudUser = savedUser
                     showFullScreen = false
+                    isLoadingUser = false
                 case .failure(let error):
                     debugPrint("Cannot Save new user")
                     debugPrint(error)

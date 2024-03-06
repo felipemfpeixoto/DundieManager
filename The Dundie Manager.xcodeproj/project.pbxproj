@@ -36,7 +36,7 @@
 		0F6787CC2B8D15DA000F5CB2 /* ImagePickerRepresentable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePickerRepresentable.swift; sourceTree = "<group>"; };
 		0F6787D12B8E5C40000F5CB2 /* VoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoteView.swift; sourceTree = "<group>"; };
 		0F6787D52B8EA457000F5CB2 /* DAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DAO.swift; sourceTree = "<group>"; };
-		0F6A5AE62B8510AF00FE1288 /* DundeePrizeManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DundeePrizeManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F6A5AE62B8510AF00FE1288 /* The Dundie Manager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "The Dundie Manager.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0F6A5AE92B8510AF00FE1288 /* DundeePrizeManagerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DundeePrizeManagerApp.swift; sourceTree = "<group>"; };
 		0F6A5AEB2B8510AF00FE1288 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0F6A5AF02B8510B000FE1288 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -126,7 +126,7 @@
 		0F6A5AE72B8510AF00FE1288 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0F6A5AE62B8510AF00FE1288 /* DundeePrizeManager.app */,
+				0F6A5AE62B8510AF00FE1288 /* The Dundie Manager.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -166,9 +166,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0F6A5AE52B8510AF00FE1288 /* DundeePrizeManager */ = {
+		0F6A5AE52B8510AF00FE1288 /* The Dundie Manager */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0F6A5AF42B8510B000FE1288 /* Build configuration list for PBXNativeTarget "DundeePrizeManager" */;
+			buildConfigurationList = 0F6A5AF42B8510B000FE1288 /* Build configuration list for PBXNativeTarget "The Dundie Manager" */;
 			buildPhases = (
 				0F6A5AE22B8510AF00FE1288 /* Sources */,
 				0F6A5AE32B8510AF00FE1288 /* Frameworks */,
@@ -178,12 +178,12 @@
 			);
 			dependencies = (
 			);
-			name = DundeePrizeManager;
+			name = "The Dundie Manager";
 			packageProductDependencies = (
 				0FBB6B1F2B87E76400F410C7 /* CloudKitMagicCRUD */,
 			);
 			productName = DundeePrizeManager;
-			productReference = 0F6A5AE62B8510AF00FE1288 /* DundeePrizeManager.app */;
+			productReference = 0F6A5AE62B8510AF00FE1288 /* The Dundie Manager.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -201,7 +201,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0F6A5AE12B8510AF00FE1288 /* Build configuration list for PBXProject "DundeePrizeManager" */;
+			buildConfigurationList = 0F6A5AE12B8510AF00FE1288 /* Build configuration list for PBXProject "The Dundie Manager" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -217,7 +217,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0F6A5AE52B8510AF00FE1288 /* DundeePrizeManager */,
+				0F6A5AE52B8510AF00FE1288 /* The Dundie Manager */,
 			);
 		};
 /* End PBXProject section */
@@ -449,7 +449,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0F6A5AE12B8510AF00FE1288 /* Build configuration list for PBXProject "DundeePrizeManager" */ = {
+		0F6A5AE12B8510AF00FE1288 /* Build configuration list for PBXProject "The Dundie Manager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0F6A5AF22B8510B000FE1288 /* Debug */,
@@ -458,7 +458,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0F6A5AF42B8510B000FE1288 /* Build configuration list for PBXNativeTarget "DundeePrizeManager" */ = {
+		0F6A5AF42B8510B000FE1288 /* Build configuration list for PBXNativeTarget "The Dundie Manager" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0F6A5AF52B8510B000FE1288 /* Debug */,
