@@ -59,21 +59,21 @@ struct DundieDetailView: View, CKMRecordObserver {
             isShowingProfile = false
             recieveDundieVotes(idDundie: idDundie)
         }
-        .onAppear {
-            CKMDefault.notificationManager.createNotification(to:self, for: DundieVote.self) {
-                        result in
-                        switch result {
-                            case .success( _):
-                            print("Pegou")
-                                break
-                            case .failure(let error):
-                                debugPrint(error)
-                        }
-                    }
-            DundieVote.register(observer: self)
-
-            print("Registrei!")
-        }
+//        .onAppear {
+//            CKMDefault.notificationManager.createNotification(to:self, for: DundieVote.self) {
+//                        result in
+//                        switch result {
+//                            case .success( _):
+//                            print("Pegou")
+//                                break
+//                            case .failure(let error):
+//                                debugPrint(error)
+//                        }
+//                    }
+//            DundieVote.register(observer: self)
+//
+//            print("Registrei!")
+//        }
     }
     
     var dundieBackground: some View {
@@ -281,23 +281,15 @@ struct DundieDetailView: View, CKMRecordObserver {
     }
     
     func onReceive(notification: CloudKitMagicCRUD.CKMNotification) {
-//        CKMDefault.notificationManager.createNotification(to: self, for: DundieVote.self) { result in
-//            switch result {
-//            case .success(let success):
-//                recieveDundieVotes(idDundie: idDundie)
-//            case .failure(let failure):
-//                <#code#>
-//            }
+//        print("New Message at \(notification.date.formatted(date: .omitted, time: .complete))")
+//
+//        if #available(iOS 15.0, *) {
+//            print("New Message at \(notification.date.formatted(date: .omitted, time: .complete))")
+//            print(notification.body, notification.title, notification.userID ?? "")
+//        } else {
+//            print("New Dundie")
+//            print("New Dundie at \(notification.date)")
 //        }
-        print("New Message at \(notification.date.formatted(date: .omitted, time: .complete))")
-
-        if #available(iOS 15.0, *) {
-            print("New Message at \(notification.date.formatted(date: .omitted, time: .complete))")
-            print(notification.body, notification.title, notification.userID ?? "")
-        } else {
-            print("New Dundie")
-            print("New Dundie at \(notification.date)")
-        }
         recieveDundieVotes(idDundie: idDundie)
     }
 }

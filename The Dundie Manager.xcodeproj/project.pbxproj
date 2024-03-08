@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0F1510252B910EA4006FA28F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 0F1510242B910EA4006FA28F /* .gitignore */; };
 		0F1510272B91FB4C006FA28F /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1510262B91FB4C006FA28F /* CreateUserView.swift */; };
+		0F47B6312B9A4B150073E53E /* GroupsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F47B6302B9A4B150073E53E /* GroupsView.swift */; };
 		0F6787BF2B8BD14C000F5CB2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F6787BE2B8BD14C000F5CB2 /* Assets.xcassets */; };
 		0F6787C22B8BF3C7000F5CB2 /* Employees.json in Resources */ = {isa = PBXBuildFile; fileRef = 0F6787C12B8BF3C7000F5CB2 /* Employees.json */; };
 		0F6787C52B8BF5EE000F5CB2 /* EmployeeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F6787C42B8BF5EE000F5CB2 /* EmployeeManager.swift */; };
@@ -29,6 +30,7 @@
 /* Begin PBXFileReference section */
 		0F1510242B910EA4006FA28F /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		0F1510262B91FB4C006FA28F /* CreateUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserView.swift; sourceTree = "<group>"; };
+		0F47B6302B9A4B150073E53E /* GroupsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsView.swift; sourceTree = "<group>"; };
 		0F6787BE2B8BD14C000F5CB2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0F6787C12B8BF3C7000F5CB2 /* Employees.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Employees.json; sourceTree = "<group>"; };
 		0F6787C42B8BF5EE000F5CB2 /* EmployeeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeManager.swift; sourceTree = "<group>"; };
@@ -84,23 +86,17 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		0F6787C92B8BF7BC000F5CB2 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
 		0F6787D32B8EA140000F5CB2 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				0FBB6B252B89285700F410C7 /* AddDundieView.swift */,
 				0F6A5AEB2B8510AF00FE1288 /* ContentView.swift */,
+				0F1510262B91FB4C006FA28F /* CreateUserView.swift */,
 				0FBB6B152B87BE7200F410C7 /* DundieDetailView.swift */,
 				0F6A5AE92B8510AF00FE1288 /* DundeePrizeManagerApp.swift */,
 				0FBB6B192B87CFE900F410C7 /* DundiesView.swift */,
+				0F47B6302B9A4B150073E53E /* GroupsView.swift */,
 				0F6787D12B8E5C40000F5CB2 /* VoteView.swift */,
-				0F1510262B91FB4C006FA28F /* CreateUserView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -140,7 +136,6 @@
 				0F6787D42B8EA44A000F5CB2 /* DAO */,
 				0F6787C62B8BF6C3000F5CB2 /* Helpers */,
 				0FBB6B212B87EC9100F410C7 /* Models */,
-				0F6787C92B8BF7BC000F5CB2 /* ViewModels */,
 				0F6787D32B8EA140000F5CB2 /* Views */,
 				0F6A5AEF2B8510B000FE1288 /* Preview Content */,
 			);
@@ -242,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0F6787C52B8BF5EE000F5CB2 /* EmployeeManager.swift in Sources */,
+				0F47B6312B9A4B150073E53E /* GroupsView.swift in Sources */,
 				0F1510272B91FB4C006FA28F /* CreateUserView.swift in Sources */,
 				0F6787D22B8E5C40000F5CB2 /* VoteView.swift in Sources */,
 				0F6A5AEC2B8510AF00FE1288 /* ContentView.swift in Sources */,
